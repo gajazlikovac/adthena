@@ -1,12 +1,8 @@
 package pricebasket
 
 object Offer {
+    // Discount function type
     type DiscountFunction = List[Item] => (String, BigDecimal)
-
-    private def formatDiscount(totalDiscount: BigDecimal): String = {
-        if (totalDiscount >= 1) f"£$totalDiscount%.2f"
-        else f"${totalDiscount * 100}%.0fp"
-    }
 
     private val appleDiscount: DiscountFunction = items => {
         val itemCount = items.groupBy(_.name).map { case (k, v) => (k, v.size) }
@@ -35,11 +31,20 @@ object Offer {
         }
     }
 
+    // List of discount functions
     private val discountFunctions: List[DiscountFunction] = List(
         appleDiscount,
         breadAndSoupDiscount
+        //To create new discount functions, add them here, and define above.
     )
 
+    // Helper method to format discount amount (£ or p)
+    private def formatDiscount(totalDiscount: BigDecimal): String = {
+        if (totalDiscount >= 1) f"£$totalDiscount%.2f"
+        else f"${totalDiscount * 100}%.0fp"
+    }
+
+    // Main method that calls every discount function and returns the total discount.
     def calculateDiscounts(items: List[Item]): (List[String], BigDecimal) = {
         val discount = discountFunctions.map(f => f(items)._2).sum
         if (discount > 0) {
