@@ -6,6 +6,8 @@ This is a normal sbt project. You can compile code with `sbt compile`, run it wi
 
 To run with parameters, use: `sbt "run Apples Milk Bread"`
 
+to run test, use: `sbt test`
+
 If you don't have `sbt` installed, run: `brew install sbt` (for Mac)
 
 For more information on the sbt-dotty plugin, see the
